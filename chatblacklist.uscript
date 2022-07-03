@@ -1,0 +1,24 @@
+server.log "made by vantheman"
+config = {
+    "WebhookURL": "https://discord.com/api/webhooks/XXXXXXXX/XXXXXXXXXXXXXXXXXXXXX",
+    "IconURL": "https://i.imgur.com/B5y1UXO.png"
+};
+ 
+BlacklistedWords = array("blue", "russia", "p2w", "Weird", "bad word", "BlazeIsNotCool", "$$#"); // Add as many Words you want to!
+event onPlayerChatted(player, message, chatMode, color, cancel){
+    text = message.toLower();
+    foreach(word in BlacklistedWords){
+        if(text.contains(word)){
+            cancel = true;
+            player.message("You said a blacklisted word! | " + word, "red");
+            print(" " + player.name + " said a Blacklisted Word! | " + word);
+            Embed = discordEmbed();
+            Embed.title = "Blacklisted Word!";
+            Embed.description = "**" + player.name + "**(" + player.id + ") said a blacklisted word! | " + word;
+            Embed.color = 16711680;
+            Embed.author.iconUrl = config["IconURL"];
+            Embed.footer.text = "{0} | Script made by: Blaze | https://discord.gg/WXRB6yWeBm".format(time.now.date);
+            discord.sendEmbed(config["WebhookURL"], Embed);
+        }
+    }
+}
